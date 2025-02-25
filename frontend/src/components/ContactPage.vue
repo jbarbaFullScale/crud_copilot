@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import axios from "axios";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import ContactForm from "./ContactForm.vue";
 
 const contacts = ref<object[]>([]);
+const searchQuery = ref("");
 const baseUrl = "http://localhost:5000";
 const contactEndpoint = `${baseUrl}/api/contact`;
 const headers =  {
@@ -68,7 +69,6 @@ const updateContact = (contact: any) => {
     saveUpdateContact(contact);
 };
 
-
 // Set contact for editing
 const editContact = (contact: any) => {
     selectedContact.value = contact;
@@ -93,19 +93,36 @@ const deleteContact = async (contact: any) => {
     getContacts();
 
 }
+const filteredContacts = computed(() => {
+  return contacts.value.filter((contact: any) => {
+    const query = searchQuery.value.toLowerCase();
+    return (
+      contact.name.toLowerCase().includes(query) ||
+      contact.email.toLowerCase().includes(query) ||
+      contact.address.toLowerCase().includes(query) ||
+      contact.contact_number.toLowerCase().includes(query)
+    );
+  });
+});
 
 </script>
 
 <template>
   <div>
     <h1 class="text-xl font-bold mb-4">Contacts</h1>
+    <input
+      v-model="searchQuery"
+      type="text"
+      placeholder="Search contacts..."
+      class="w-full p-2 border rounded mb-4"
+    />
     <ContactForm
       :contact="selectedContact"
       @save="saveContact"
       @update="updateContact"
     />
     <ul>
-      <li v-for="contact in contacts" :key="contact.id" class="border p-2 mt-2">
+      <li v-for="contact in filteredContacts" :key="contact.id" class="border p-2 mt-2">
         <span>{{ contact.name }} - {{ contact.email }}</span>
         <button @click="editContact(contact)" class="ml-4 text-blue-500">Edit</button>
         <button @click="deleteContact(contact)" class="ml-4 text-blue-500">Delete</button>

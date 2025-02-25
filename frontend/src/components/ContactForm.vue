@@ -45,32 +45,35 @@ const submitForm = () => {
 </script>
 
 <template>
-  <form @submit.prevent="submitForm" class="space-y-4 p-4 border rounded-lg shadow-md max-w-md mx-auto">
-    <div>
-      <label class="block font-medium text-gray-700">Name:</label>
-      <input v-model="contactData.name" type="text" class="w-full border rounded p-2" required />
-    </div>
+  <!-- div with border color white -->
+  <div class="border-white">
+    <form @submit.prevent="submitForm" class="space-y-4 p-4 border rounded-lg shadow-md max-w-md mx-auto">
+      <div>
+        <label class="block font-medium text-gray-700">Name: </label>
+        <input v-model="contactData.name" type="text" class="w-full border rounded p-2" required />
+      </div>
 
-    <div>
-      <label class="block font-medium text-gray-700">Email:</label>
-      <input v-model="contactData.email" type="email" class="w-full border rounded p-2" required />
-    </div>
+      <div>
+        <label class="block font-medium text-gray-700">Email: </label>
+        <input v-model="contactData.email" type="email" class="w-full border rounded p-2" required />
+      </div>
 
-    <div>
-      <label class="block font-medium text-gray-700">Address:</label>
-      <input v-model="contactData.address" type="text" class="w-full border rounded p-2" required />
-    </div>
+      <div>
+        <label class="block font-medium text-gray-700">Address: </label>
+        <input v-model="contactData.address" type="text" class="w-full border rounded p-2" required />
+      </div>
 
-    <div>
-      <label class="block font-medium text-gray-700">Contact Number:</label>
-      <input v-model="contactData.contact_number" type="text" class="w-full border rounded p-2" required />
-    </div>
+      <div>
+        <label class="block font-medium text-gray-700">Contact Number: </label>
+        <input v-model="contactData.contact_number" type="text" class="w-full border rounded p-2" required />
+      </div>
 
-    <button
-      type="submit"
-      class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
-    >
-      {{ props.contact?.id ? "Update Contact" : "Add Contact" }}
-    </button>
-  </form>
+      <button
+        type="submit"
+        class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+      >
+        {{ props.contact?.id ? "Update Contact" : "Add Contact" }}
+      </button>
+    </form>
+  </div>
 </template>
