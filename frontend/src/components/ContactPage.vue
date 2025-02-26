@@ -8,10 +8,8 @@ const searchQuery = ref("");
 const baseUrl = "http://localhost:5000";
 const contactEndpoint = `${baseUrl}/api/contact`;
 const headers =  {
-  headers: {
     "Content-Type": "application/json",
     "Accept": "application/json"
-  }
 };
 
 onMounted(async () => {
@@ -55,7 +53,6 @@ const saveUpdateContact = async (contact: any) => {
 
 // Handle saving a new contact
 const saveContact = async (contact: any) => {
-    selectedContact.value = null;
     saveUpdateContact(contact);
 };
 
@@ -65,7 +62,6 @@ const updateContact = (contact: any) => {
     if (index !== -1) {
         contacts.value[index] = contact;
     }
-    selectedContact.value = null;
     saveUpdateContact(contact);
 };
 
@@ -81,7 +77,7 @@ const deleteContact = async (contact: any) => {
         return;
     }
     try {
-        const response = await axios.delete(deleteEndpoint, headers);
+        const response = await axios.delete(deleteEndpoint);
         console.log("response", response);
         if (response.status == 200) {
             alert(`Contact \"${contact.name}\" with id: ${contact.id} has been deleted successfully`);
@@ -94,7 +90,7 @@ const deleteContact = async (contact: any) => {
 
 }
 const filteredContacts = computed(() => {
-  return contacts.value.filter((contact: any) => {
+  return (contacts.value) ? contacts.value.filter((contact: any) => {
     const query = searchQuery.value.toLowerCase();
     return (
       contact.name.toLowerCase().includes(query) ||
@@ -102,7 +98,7 @@ const filteredContacts = computed(() => {
       contact.address.toLowerCase().includes(query) ||
       contact.contact_number.toLowerCase().includes(query)
     );
-  });
+  }) : [];
 });
 
 </script>
@@ -116,17 +112,30 @@ const filteredContacts = computed(() => {
       placeholder="Search contacts..."
       class="w-full p-2 border rounded mb-4"
     />
-    <ContactForm
-      :contact="selectedContact"
-      @save="saveContact"
-      @update="updateContact"
-    />
-    <ul>
-      <li v-for="contact in filteredContacts" :key="contact.id" class="border p-2 mt-2">
-        <span>{{ contact.name }} - {{ contact.email }}</span>
-        <button @click="editContact(contact)" class="ml-4 text-blue-500">Edit</button>
-        <button @click="deleteContact(contact)" class="ml-4 text-blue-500">Delete</button>
-      </li>
-    </ul>
+    <button>
+      <router-link to="/contacts/new">
+        Add Contact
+      </router-link>
+    </button>
+    <div class="container">
+        <!-- <div class="form-container">
+            <ContactForm
+            :contact="selectedContact"
+            @save="saveContact"
+            @update="updateContact"
+            />
+        </div> -->
+        <div class="list-container">
+            <ul>
+            <li v-for="contact in filteredContacts" :key="contact.id" class="border p-2 mt-2">
+                <span>{{ contact.name }} - {{ contact.email }}</span>
+                <router-link :to="'contacts/' + contact.id">
+                    <button @click="editContact(contact)" class="ml-4 text-blue-500">Edit</button>
+                </router-link>
+                <button @click="deleteContact(contact)" class="ml-4 text-blue-500">Delete</button>
+            </li>
+            </ul>
+        </div>
+    </div>
   </div>
 </template>

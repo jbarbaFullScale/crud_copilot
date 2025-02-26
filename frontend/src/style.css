@@ -2,11 +2,11 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
+  
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-
+  
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -60,7 +60,7 @@ button:focus-visible {
 
 #app {
   max-width: 1280px;
-  min-width: 400px;
+  min-width: 500px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -85,4 +85,23 @@ button:focus-visible {
   border-style: solid;
   border-radius: 5%;
   margin-top: 10%;
+}
+
+.container {
+  display: flex;
+}
+
+.form-container {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.list-container {
+  flex: 2;
+  min-width:400px;
+  margin-top: 5%;
+  border: 3px solid #fff;
+  border-radius: 5%;
+  overflow-y: auto;
+  max-height: 300px;
 }

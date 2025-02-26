@@ -6,16 +6,26 @@ from extensions import db
 
 contact_routes = Blueprint("contact_routes", __name__)
 
+@contact_routes.route("get/<int:id>", methods=["GET"])
+def get_contact_by_id(id: int) -> Response:
+    contact = Contact.query.filter_by(id=id).first()
+    if not contact:
+        return jsonify({"message": "Contact not found"}), 404
+    return jsonify({"contact": contact.to_dict()})
 
 @contact_routes.route("get", methods=["GET"])
 def get_contacts() -> Response:
     contacts = Contact.query.all()
     return jsonify({"contacts": [contact.to_dict() for contact in contacts]})
 
-
 @contact_routes.route("create", methods=["POST"])
 def create_contact() -> Response:
     data = request.json
+    email = data.get("email")
+
+    if Contact.query.filter_by(email=email).first():
+        return jsonify({"message": "Email already exists"}), 400
+
     new_user = Contact(
         name=data["name"],
         email=data["email"],
@@ -31,6 +41,13 @@ def create_contact() -> Response:
 def update_contact(id: int) -> Response:
     data = request.json
     contact = Contact.query.get(id)
+
+    if (
+        contact.email != data["email"]
+        and Contact.query.filter_by(email=data["email"]).first()
+    ):
+        return jsonify({"message": "Email already exists"}), 400
+
     if not contact:
         return jsonify({"message": "Contact not found"}), 404
     contact.name = data["name"]

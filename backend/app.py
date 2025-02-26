@@ -1,8 +1,10 @@
 from typing import Any
-from backend.routes.contact_routes import contact_routes, create_contact, delete_contact, get_contacts
+from backend.routes.contact_routes import (
+    contact_routes
+)
 from config import Config
 from extensions import db, migrate
-from flask import Flask, jsonify, request
+from flask import Flask
 from flask_cors import CORS
 
 

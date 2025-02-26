@@ -41,6 +41,17 @@ const submitForm = () => {
   } else {
     emit("save", contactData.value);
   }
+  clearForm();
+};
+
+// Clear form data and resetting the button to "Add Contact"
+const clearForm = () => {
+  contactData.value = {
+    name: "",
+    email: "",
+    address: "",
+    contact_number: "",
+  };
 };
 </script>
 

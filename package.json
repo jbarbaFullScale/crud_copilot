@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/jbarbaFullScale/crud_copilot/issues"
   },
-  "homepage": "https://github.com/jbarbaFullScale/crud_copilot#readme"
+  "homepage": "https://github.com/jbarbaFullScale/crud_copilot#readme",
+  "dependencies": {
+    "vue-router": "^4.5.0"
+  }
 }
