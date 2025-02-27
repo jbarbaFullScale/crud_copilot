@@ -4,7 +4,7 @@ import { ref, defineProps, defineEmits, watch } from "vue";
 // Define props to handle edit mode
 const props = defineProps<{
   contact?: {
-    id?: number;
+    id?: undefined | number;
     name: string;
     email: string;
     address: string;
@@ -53,7 +53,12 @@ const clearForm = () => {
     contact_number: "",
   };
 };
+
 </script>
+<script lang="ts">
+export default {};
+</script>
+
 
 <template>
   <!-- div with border color white -->

@@ -19,5 +19,8 @@
   "homepage": "https://github.com/jbarbaFullScale/crud_copilot#readme",
   "dependencies": {
     "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/vue-router": "^2.0.0"
   }
 }

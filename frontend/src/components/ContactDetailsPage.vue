@@ -5,24 +5,30 @@ import { useRoute, useRouter } from "vue-router";
 import ContactForm from "./ContactForm.vue";
 
 // Base API URL
-const contacts = ref<object[]>([]);
+let contacts = ref<{ id: number | undefined; name: string; address: string; contact_number: string; email?: string }[]>([]);
 const baseUrl = "http://localhost:5000";
 const contactEndpoint = `${baseUrl}/api/contact`;
-const contact = ref({
+const selectedContact = ref<{
+    id?: number;
+    name: string;
+    email: string;  // Ensure email is always a string
+    address: string;
+    contact_number: string;
+}>({
+  id: undefined,
   name: "",
-  email: "",
-  phone: "",
+  email: "",  // Default to empty string instead of undefined
   address: "",
+  contact_number: "",
 });
 
-const selectedContact = ref(null);
 const route = useRoute();
 const router = useRouter();
 
 const headers = {
   headers: {
     "Content-Type": "application/json",
-    Accept: "application/json",
+    "Accept": "application/json",
   },
 };
 
@@ -32,7 +38,7 @@ const fetchContactDetails = async () => {
     const contactId = route.params.id;
     if (contactId) {
       const response = await axios.get(`${contactEndpoint}/get/${contactId}`, headers);
-      selectedContact.value = response.data.contact;
+      contacts.value = response.data.contact;
     }
   } catch (error) {
     console.error("Error fetching contact details:", error);
